@@ -1,0 +1,4 @@
+# Run: clang-format -i <file>   (or let your editor format on save)
+BasedOnStyle: Google
+IndentWidth: 4
+ColumnLimit: 100

@@ -1,0 +1,11 @@
+build/
+.cache/
+*.o
+*.a
+__pycache__/
+.vscode/
+.idea/
+compile_commands.json
+perf.data*
+*.pcap
+*.pcapng
