@@ -41,9 +41,3 @@ ctest --preset debug                  # everything passes or is SKIPPED (not wri
 | `docs/` | Notes, measurements and the week-4 server comparison |
 | `DECISIONS.md` | Why things are the way they are |
 
-## The rules
-1. You write your own code. AI may explain and review; it doesn't write.
-2. Check every system call (`check(...)` in `src/check.hpp`).
-3. Tests pass on `debug` (and `tsan` for threads) before you measure on `release`.
-4. Stay in your group's folder.
-5. A PR merges with green CI + one approval from someone in your group.
