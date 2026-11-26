@@ -9,3 +9,4 @@ compile_commands.json
 perf.data*
 *.pcap
 *.pcapng
+forge-data/

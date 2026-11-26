@@ -5,13 +5,13 @@
 A chat room in your terminal: people connect with `nc`, and whatever one person
 types, everyone else sees. With **one thread** and `poll()`, the server watches
 every connection at once and only touches the ones that have something to say.
-That's exactly how Group B's server works, and how Nginx and Redis work. You'll
+That's exactly how ForgeDB's `--io epoll` mode works (CONN-5), and how Nginx and Redis work. You'll
 also watch TCP itself in Wireshark: the handshake, the data, the goodbye.
 
 ## Build
 `chat_server --port N`:
 1. Listen on 127.0.0.1:N. Make the listening socket and every client socket **non-blocking** (`fcntl` with `O_NONBLOCK`).
-2. Write a small `Socket` class that closes its fd in its destructor (RAII, move-only), like your group's W1.1.
+2. Write a small `Socket` class that closes its fd in its destructor (RAII, move-only), like ForgeDB's `Socket` (CONN-1).
 3. Loop on `poll()` over the listener plus every client:
    - the listener is readable → `accept` new clients (until `EAGAIN`);
    - a client is readable → `recv` into **that client's own buffer**. For each complete line (ending in `\n`) in the buffer:
