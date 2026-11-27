@@ -26,9 +26,10 @@ learn **modern C++, operating systems and computer networks**.
    │ store, snapshots, mmap       │ keyword search (BM25), hybrid  │  SNAP · KW
    └──────────────────────────────┴────────────────────────────────┘
       load generator, crash and chaos tests, the numbers               LOAD
+      rate limits, API keys, TLS, the sandbox, the threat model        SEC
 ```
 
-Ten components, ten owners. See [`issues/README.md`](issues/README.md).
+Eleven components, eleven owners. See [`issues/README.md`](issues/README.md).
 
 ## New here?
 1. [`issues/START_HERE.md`](issues/START_HERE.md): your first issue, step by step.

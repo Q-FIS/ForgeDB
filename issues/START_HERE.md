@@ -25,7 +25,7 @@ ctest --preset debug               # runs every test
 
 The last command ends like this:
 ```
-100% tests passed out of 34
+100% tests passed out of 37
 
 The following tests did not run:
       1 - contract.app.api (Skipped)

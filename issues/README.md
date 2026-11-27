@@ -4,10 +4,10 @@
 issue, start to finish. [`REFERENCE.md`](REFERENCE.md) has every command, the
 folder layout, and the words we use.
 
-## One product, ten components, ten owners
+## One product, eleven components, eleven owners
 
 We build one thing together: **ForgeDB** (see the root `README.md`). It's
-split into ten components. Each member **owns** one, for the whole project:
+split into eleven components. Each member **owns** one, for the whole project:
 
 - you **build** it: its issues are yours, in order (`WAL-1`, then `WAL-2`...);
 - you **review** every change to its files (GitHub asks you automatically, through CODEOWNERS);
@@ -25,10 +25,12 @@ split into ten components. Each member **owns** one, for the whole project:
 | **KW** | Keyword search: tokenizer, inverted index, BM25, hybrid | VEC |
 | **CLI** | Clients: the `forge` command, the Python client, the ML wing's RAG | LOAD |
 | **LOAD** | Testing and measurement: API tests, load generator, chaos | CLI |
+| **SEC** | The edge and security: rate limits, API keys, TLS, the seccomp sandbox, the threat model | CONN and HTTP |
 
 Your **partner** is your default reviewer, and the first person to ask when
 you're stuck. Partners work on neighbouring parts, so reviewing each other
-teaches you both.
+teaches you both. SEC works on everyone's edges, so it has two partners, CONN
+and HTTP; either can review.
 
 ## Everyone starts on day 1
 
@@ -46,6 +48,7 @@ start the parts you can, or go on to your next issue.
 | **v0.1 First search** | Put chunks in over HTTP, search them, in memory | `blackbox.smoke` passes against `forgedb` |
 | **v0.2 Survives a crash** | Log, recovery, snapshots, BM25, limits, metrics | `blackbox.crash` passes |
 | **v1.0 Fast, and powers the RAG** | epoll, SIMD, all cores, hybrid search, the ML wing on ForgeDB, the experiments | the final demo |
+| **v2 Stretch** | Harder extras, for whoever finishes their v1 list: approximate indexes (IVF, HNSW), phrase search, WAND, on-disk segments, an async client, read replicas, resilient clients, TLS in the event loop, memory limits | each one's own report or demo |
 
 GitHub shows each milestone's progress bar. When one fills up, the next
 weekly meeting is its demo.
@@ -76,9 +79,9 @@ The labs (`labs/`, one a week for 8 weeks) are done alone, in your own repo.
 They aren't issues, nobody reviews them, and they cover everything: whatever
 you own in ForgeDB, the labs make sure you also know the rest of OS and networking.
 
-## The 60 issues
+## The 77 issues
 
-Sizes: **S** ≈ 1 day, **M** ≈ 2-3 days. "Needs" lists the issues that must be merged first.
+Sizes: **S** ≈ 1 day, **M** ≈ 2-3 days, **L** ≈ a week. "Needs" lists the issues that must be merged first.
 
 | Issue | Title | Size | Milestone | Needs |
 | --- | --- | --- | --- | --- |
@@ -124,24 +127,41 @@ Sizes: **S** ≈ 1 day, **M** ≈ 2-3 days. "Needs" lists the issues that must b
 | [VEC-4](VEC-4.md) | SIMD: 8 multiplications per instruction | M | v1.0 | VEC-2 |
 | [VEC-5](VEC-5.md) | Search on all cores | S | v1.0 | POOL-5, VEC-1 |
 | [VEC-6](VEC-6.md) | Experiment: where does a search spend its time? | S | v1.0 | VEC-3, VEC-4, VEC-5 |
+| [VEC-7](VEC-7.md) | An approximate index: IVF (clusters, then search a few) | M | v2 | VEC-6 |
+| [VEC-8](VEC-8.md) | HNSW: the graph index behind most vector databases | L | v2 | VEC-7 |
+| [VEC-9](VEC-9.md) | Save the vector index, so startup doesn't rebuild it | M | v2 | VEC-8, SNAP-4 |
 | [KW-1](KW-1.md) | The tokenizer: text into words | S | v0.1 | **day 1** |
 | [KW-2](KW-2.md) | The inverted index: find chunks by their words | M | v0.1 | KW-1 |
 | [KW-3](KW-3.md) | BM25: score words the way real search engines do | M | v0.2 | KW-2 |
 | [KW-4](KW-4.md) | Compact postings: less memory, faster search | M | v1.0 | KW-3 |
 | [KW-5](KW-5.md) | Hybrid search: merge keyword and vector results | M | v1.0 | KW-2, VEC-1, POOL-3 |
 | [KW-6](KW-6.md) | Experiment: keyword vs vector vs hybrid, on real questions | M | v1.0 | KW-5, CLI-4 |
+| [KW-7](KW-7.md) | Phrase search: "net profit", in that order | M | v2 | KW-6 |
+| [KW-8](KW-8.md) | Faster top-k: skip chunks that can't win (WAND) | L | v2 | KW-4 |
+| [KW-9](KW-9.md) | The keyword index on disk: immutable segments, merged in the background | L | v2 | KW-4, SNAP-4 |
 | [CLI-1](CLI-1.md) | The `forge` command and a C++ client | M | v0.1 | CONN-1 |
 | [CLI-2](CLI-2.md) | `forge load`: load thousands of chunks from a file | S | v0.1 | CLI-1 |
 | [CLI-3](CLI-3.md) | A Python client, for the ML wing | M | v0.2 | nothing |
 | [CLI-4](CLI-4.md) | Bring the ML wing's data into ForgeDB | S | v0.2 | CLI-2 |
 | [CLI-5](CLI-5.md) | The RAG uses ForgeDB | M | v1.0 | CLI-3, CLI-4, APP-4, WAL-4 |
 | [CLI-6](CLI-6.md) | The demo: ForgeDB in five minutes | S | v1.0 | APP-5, WAL-4, CLI-2 |
+| [CLI-7](CLI-7.md) | An async client: thousands of requests in flight from one thread | L | v2 | CLI-6, CONN-4 |
+| [CLI-8](CLI-8.md) | A read replica: copy the primary by following its log | L | v2 | CLI-7, WAL-5, SNAP-4 |
+| [CLI-9](CLI-9.md) | Clients that survive failures: timeouts, retries, failover | M | v2 | CLI-3, CLI-8 |
 | [LOAD-1](LOAD-1.md) | The full API test suite | M | v0.1 | **day 1** |
 | [LOAD-2](LOAD-2.md) | `forge-load`: a load generator | M | v0.2 | CONN-1 |
 | [LOAD-3](LOAD-3.md) | Open-loop load, and the coordinated omission trap | M | v1.0 | LOAD-2 |
 | [LOAD-4](LOAD-4.md) | The concurrency test: many clients at once, nothing lost | M | v0.2 | APP-4 |
 | [LOAD-5](LOAD-5.md) | The chaos test: clients that misbehave | M | v1.0 | APP-4, HTTP-4, CONN-3 |
 | [LOAD-6](LOAD-6.md) | The final numbers | S | v1.0 | LOAD-3 |
+| [SEC-1](SEC-1.md) | A rate limiter (token buckets) and safe secret comparison | M | v0.2 | **day 1** |
+| [SEC-2](SEC-2.md) | API keys and rate limits in `forgedb`: 401 and 429 | M | v0.2 | SEC-1, APP-4 |
+| [SEC-3](SEC-3.md) | TLS: encrypted connections with OpenSSL | L | v1.0 | CONN-3, SEC-2 |
+| [SEC-4](SEC-4.md) | Lock it down: no root, resource limits, and a seccomp sandbox | M | v1.0 | APP-5, WAL-4 |
+| [SEC-5](SEC-5.md) | Threat model and security review | M | v1.0 | SEC-2, HTTP-5 |
+| [SEC-6](SEC-6.md) | Experiment: what does security cost? | S | v1.0 | SEC-3, SEC-4, LOAD-2 |
+| [SEC-7](SEC-7.md) | TLS in the event loop | L | v2 | SEC-3, CONN-5 |
+| [SEC-8](SEC-8.md) | Memory limits: refuse gracefully instead of being killed | M | v2 | SEC-4, APP-6 |
 
 ## For the lead: putting this on GitHub
 
@@ -149,7 +169,7 @@ Sizes: **S** ≈ 1 day, **M** ≈ 2-3 days. "Needs" lists the issues that must b
 scripts/setup_github.sh                # labels and milestones (once)
 # fill in scripts/owners.txt with each component's GitHub username, then:
 scripts/create_issues.sh --dry-run     # check
-scripts/create_issues.sh               # creates the 60 issues, assigned to their owners
+scripts/create_issues.sh               # creates the 77 issues, assigned to their owners
 scripts/make_codeowners.sh             # writes .github/CODEOWNERS; commit it
 ```
 Then, in the repo's settings, protect `main`: require a pull request, 1

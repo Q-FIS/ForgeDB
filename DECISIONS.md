@@ -2,8 +2,8 @@
 
 The key decisions, and why. Change an entry when a decision changes; don't delete it.
 
-## D1. One product, ten owners
-All ten members build one thing together, ForgeDB, instead of two groups building
+## D1. One product, eleven owners
+All eleven members build one thing together, ForgeDB, instead of two groups building
 the same thing twice. Each person owns one component for the whole project:
 they build it, review changes to it, and explain it to everyone. Ownership
 gives responsibility and depth; the weekly "how my component works" talks and
@@ -34,7 +34,9 @@ not in the test. (The reference is kept by the lead, outside this repo.)
 Issues have an order within each component and "Needs" between components,
 but no dates. Three GitHub milestones (v0.1 First search, v0.2 Survives a crash,
 v1.0 Fast, and powers the RAG) show progress; a milestone's demo happens when
-its bar is full.
+its bar is full. A fourth, v2 Stretch, holds harder extras for the components
+whose v1 work is lighter (VEC, KW, CLI), so every owner has a similar amount
+of hard work.
 
 ## D6. Labs stay separate
 Labs (L1-L8, one a week for 8 weeks) are done alone, in each person's own

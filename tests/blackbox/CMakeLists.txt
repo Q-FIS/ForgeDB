@@ -31,5 +31,7 @@ forge_blackbox(shutdown      shutdown_test.py    ${FORGEDB})
 forge_blackbox(concurrency   concurrency_test.py ${FORGEDB})
 forge_blackbox(chaos         chaos_test.py       ${FORGEDB})
 forge_blackbox(crash         crash_test.py       ${FORGEDB})
+forge_blackbox(replica       replica_test.py     ${FORGEDB})
+forge_blackbox(security      security_test.py    ${FORGEDB})
 # forge_blackbox(restart     restart_test.py     ${FORGEDB})            # switched on by WAL-4
 # forge_blackbox(smoke.epoll smoke_test.py       ${FORGEDB} --io epoll) # switched on by CONN-5

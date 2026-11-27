@@ -175,10 +175,10 @@ Then compare with the real `cat`: `strace cat /etc/hostname`. Does it do anythin
 
 ## Part 6 · Side quest: 4 system calls behind the commands you use (about 2 hours)
 
-There are five themes and ten of us, so each theme has two people: do yours
-alone, then compare cards with your theme-mate. Together we cover 20 system
+There are five themes and eleven of us, so each theme has two or three people:
+do yours alone, then compare cards with your theme-mates. Together we cover 20 system
 calls, and everyone learns from everyone. **Claim a theme in the channel: at
-most two people per theme, first come, first served.**
+most three people per theme, and only one theme with three; first come, first served.**
 
 | # | Theme | Your 4 system calls | Where to catch them |
 | --- | --- | --- | --- |

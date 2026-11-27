@@ -12,7 +12,7 @@ work, or a word you don't know.
 stores text chunks with their embeddings and searches them by vector, by
 keyword, or both; it speaks HTTP/JSON; it survives crashes; it serves many
 clients at once; and the ML wing's RAG system uses it. The root `README.md`
-has the picture; `issues/README.md` has the ten components and who owns what.
+has the picture; `issues/README.md` has the eleven components and who owns what.
 
 **Labs are separate.** You do them alone, in your **own** GitHub repo, from the
 handouts in `labs/`. They aren't issues in this repo.
@@ -23,7 +23,7 @@ handouts in `labs/`. They aren't issues in this repo.
 
 ```
 include/forge/      THE CONTRACTS: the headers every component codes against (the lead owns them)
-src/<component>/    each component's code: conn, http, pool, app, wal, snap, vec, kw, cli, load
+src/<component>/    each component's code: conn, http, pool, app, wal, snap, vec, kw, cli, load, sec
 apps/               the programs: forgedb.cpp (server), forge.cpp (client), forge_load.cpp
 tests/contract/     tests that define each contract, written before the code
 tests/unit/         your own tests, one folder per component
