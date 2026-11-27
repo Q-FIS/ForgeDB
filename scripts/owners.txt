@@ -1,0 +1,18 @@
+# Who owns which component. Fill in GitHub usernames (without @) at the kickoff.
+# Used by:
+#   scripts/create_issues.sh    assigns each issue to its component's owner
+#   scripts/make_codeowners.sh  writes .github/CODEOWNERS (owners review changes to their files)
+#
+# component  github-username   (one per line; LEAD owns the contracts)
+LEAD
+CONN
+HTTP
+POOL
+APP
+WAL
+SNAP
+VEC
+KW
+CLI
+LOAD
+SEC

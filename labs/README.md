@@ -9,14 +9,14 @@ holds the handouts, the starter files and the tests.
 2. Set it up from the template, and push:
    ```bash
    git clone https://github.com/<you>/qfis-labs.git ~/qfis-labs
-   cp -r ~/finforge-coreCS/labs/template/. ~/qfis-labs/
+   cp -r ~/Finforge-CoreCS/labs/template/. ~/qfis-labs/
    cd ~/qfis-labs && git add -A && git commit -m "Set up labs repo" && git push
    ```
 
 ## Every week: start the lab
 
 ```bash
-~/finforge-coreCS/labs/start_lab.sh L1 ~/qfis-labs
+~/Finforge-CoreCS/labs/start_lab.sh L1 ~/qfis-labs
 ```
 This copies the handout (`README.md`), the starter files and the test into
 `~/qfis-labs/L1/`. Then:
@@ -28,14 +28,14 @@ python3 L1/test_l1.py build/debug/L1                         # run the lab's tes
 ```
 
 **Done = the test passes, and `NOTES.md` is filled in.** Commit and push. No review.
-Then, in your group meeting, show it for 3 minutes: your measurement, your
+Then, at the weekly meeting, show it for 3 minutes: your measurement, your
 `strace` (or Wireshark) output, and one thing that surprised you.
 
 ## The labs
 
 | Lab | Week | Language | What | Test ready |
 | --- | --- | --- | --- | --- |
-| L1 | 1 | C | `mycat` and `mywc`: talking to the kernel | yes |
+| L1 | 1 | C, then C++ | `mycat`, `mywc` and `mycatpp`: talking to the kernel, RAII, 4 system calls of your own | yes |
 | L2 | 2 | C | `qsh`: a Unix shell | yes |
 | L3 | 3 | C++ | Threads: races, mutexes, atomics, a bounded queue | yes |
 | L4 | 4 | C++ | A chat server with `poll()` | yes |

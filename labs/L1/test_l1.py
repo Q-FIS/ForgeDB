@@ -1,4 +1,4 @@
-"""L1 test: mycat and mywc.   python3 L1/test_l1.py <folder with mycat and mywc>"""
+"""L1 test: mycat, mycatpp and mywc.   python3 L1/test_l1.py <folder with the three programs>"""
 import os
 import random
 import subprocess
@@ -8,6 +8,7 @@ import tempfile
 random.seed(1)
 bindir = sys.argv[1] if len(sys.argv) > 1 else "build/debug/L1"
 MYCAT, MYWC = os.path.join(bindir, "mycat"), os.path.join(bindir, "mywc")
+MYCATPP = os.path.join(bindir, "mycatpp")
 failures = 0
 
 
@@ -37,22 +38,30 @@ with tempfile.TemporaryDirectory() as d:
         with open(paths[name], "wb") as f:
             f.write(data)
 
-    print("mycat")
-    for name, data in FILES.items():
-        r = subprocess.run([MYCAT, paths[name]], capture_output=True, timeout=30)
-        check(r.returncode == 0 and r.stdout == data, f"mycat {name}")
-    for size in ("1", "7", "1048576"):
-        r = subprocess.run([MYCAT, "-b", size, paths["lines"]], capture_output=True, timeout=30)
-        check(r.stdout == FILES["lines"], f"mycat -b {size}")
-    r = subprocess.run([MYCAT, paths["lines"], paths["unicode"]], capture_output=True, timeout=30)
-    check(r.stdout == FILES["lines"] + FILES["unicode"], "mycat with two files concatenates them")
-    r = subprocess.run([MYCAT], input=b"from stdin\n", capture_output=True, timeout=30)
-    check(r.stdout == b"from stdin\n", "mycat with no files copies standard input")
-    r = subprocess.run([MYCAT, os.path.join(d, "missing"), paths["lines"]], capture_output=True, timeout=30)
-    check(
-        r.returncode != 0 and b"missing" in r.stderr and r.stdout == FILES["lines"],
-        "a missing file: error on stderr, carries on with the next file, exit code not 0",
-    )
+    for prog in (MYCAT, MYCATPP):
+        cat = os.path.basename(prog)
+        print(cat)
+        if not os.path.exists(prog):
+            check(False, f"{prog} exists (did the build work?)")
+            continue
+        for name, data in FILES.items():
+            r = subprocess.run([prog, paths[name]], capture_output=True, timeout=30)
+            check(r.returncode == 0 and r.stdout == data, f"{cat} {name}")
+        for size in ("1", "7", "1048576"):
+            r = subprocess.run([prog, "-b", size, paths["lines"]], capture_output=True, timeout=30)
+            check(r.stdout == FILES["lines"], f"{cat} -b {size}")
+        for bad in ("0", "abc"):
+            r = subprocess.run([prog, "-b", bad, paths["lines"]], capture_output=True, timeout=30)
+            check(r.returncode == 2 and r.stdout == b"", f"{cat} -b {bad}: a message and exit code 2 (got {r.returncode})")
+        r = subprocess.run([prog, paths["lines"], paths["unicode"]], capture_output=True, timeout=30)
+        check(r.stdout == FILES["lines"] + FILES["unicode"], f"{cat} with two files concatenates them")
+        r = subprocess.run([prog], input=b"from stdin\n", capture_output=True, timeout=30)
+        check(r.stdout == b"from stdin\n", f"{cat} with no files copies standard input")
+        r = subprocess.run([prog, os.path.join(d, "missing"), paths["lines"]], capture_output=True, timeout=30)
+        check(
+            r.returncode == 1 and b"missing" in r.stderr and r.stdout == FILES["lines"],
+            f"{cat}: a missing file gives an error on stderr, carries on with the next file, exit code 1",
+        )
 
     print("mywc")
     for name, data in FILES.items():

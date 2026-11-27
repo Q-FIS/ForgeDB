@@ -7,6 +7,7 @@ Closes #
 - [ ] `ctest --preset debug` passes on my machine
 - [ ] If this touches threads: `ctest --preset tsan` passes too
 - [ ] Every system call's return value is checked
+- [ ] No public signature in `include/forge/` changed (or the lead agreed in the issue)
 - [ ] I can explain every line (I wrote it; AI only explained or reviewed)
 
-Merges with: green CI + one approval from someone in your group.
+Merges with: green CI + one approval (your partner, or the owner of the files you touched).
