@@ -79,9 +79,3 @@ Before that, the fake server answers the same API: `python3 tools/fake_server.py
 | `release` | Measurements and benchmarks only |
 | `fuzz` | libFuzzer (HTTP-5; needs clang) |
 
-## The rules
-1. You write your own code. AI may explain and review; it doesn't write.
-2. Check every system call (`check(...)` in `forge/check.hpp`).
-3. Tests pass on `debug` (and `tsan` for threads) before you measure on `release`.
-4. Public signatures in `include/forge/` change only with the lead's OK: other people code against them.
-5. A PR merges with green CI and one approval (your partner, or the owner of the files you touched).
